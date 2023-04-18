@@ -1,14 +1,29 @@
-FROM python:3.9-slim-buster
+# Usar una imagen base de Python
+FROM python:3.8-slim-buster
 
-RUN apt-get update && apt-get install -y x11-apps
-RUN apt-get install -y python3-tk
+# Actualizar el sistema y instalar dependencias
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        xauth \
+        libx11-dev \
+        libxcb1-dev \
+        libxext-dev \
+        libxrender-dev \
+        libxtst-dev \
+        libfreetype6-dev \
+        libfontconfig1 \
+        && \
+    rm -rf /var/lib/apt/lists/*
 
+# Copiar el código fuente de la aplicación
+COPY main.py .
+
+# Instalar dependencias de Python
+RUN pip install PyQt5
+
+# Establecer las variables de entorno para X11
 ENV DISPLAY=:0
+ENV QT_X11_NO_MITSHM=1
 
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-COPY . .
-
-CMD ["python", "main.py"]
+# Ejecutar la aplicación
+CMD [ "python", "./main.py" ]
