@@ -1,19 +1,13 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel
+import os
+import tkinter as tk
 
-app = QApplication(sys.argv)
+# Configurar la variable de entorno DISPLAY para conectarse con X Server
+os.environ["DISPLAY"] = ":0"
 
-# Crear la ventana principal
-window = QWidget()
-window.setWindowTitle('Mi aplicación gráfica')
-window.setGeometry(100, 100, 300, 200)
+# Crear una ventana gráfica utilizando tkinter
+root = tk.Tk()
+root.title("Ventana gráfica")
+root.geometry("400x300")
 
-# Agregar un label a la ventana
-label = QLabel('¡Hola, mundo!', window)
-label.move(100, 80)
-
-# Mostrar la ventana
-window.show()
-
-# Ejecutar la aplicación
-sys.exit(app.exec_())
+# Mostrar la ventana gráfica
+root.mainloop()
